@@ -1,0 +1,202 @@
+%NightWatch Sechedule
+%Nightwatch.json
+{
+  "src_folders" : ["tests"],
+  "output_folder" : "reports",
+  "custom_commands_path" : "",
+  "custom_assertions_path" : "",
+  "page_objects_path" : "",
+  "globals_path" : "",
+
+  "selenium" : {
+    "start_process" : false,
+    "server_path" : "",
+    "log_path" : "",
+    "port" : 4444,
+    "cli_args" : {
+      "webdriver.chrome.driver" : "",
+      "webdriver.gecko.driver" : "",
+      "webdriver.edge.driver" : ""
+    }
+  },
+
+  "test_settings" : {
+    "default" : {
+      "launch_url" : "http://localhost",
+      "selenium_port"  : 4444,
+      "selenium_host"  : "localhost",
+      "silent": true,
+      "screenshots" : {
+        "enabled" : false,
+        "path" : ""
+      },
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "marionette": true
+      }
+    },
+
+    "chrome" : {
+      "desiredCapabilities": {
+        "browserName": "chrome"
+      }
+    },
+
+    "edge" : {
+      "desiredCapabilities": {
+        "browserName": "MicrosoftEdge"
+      }
+    }
+  }
+}
+
+%nightwatch.config.js
+module.exports = (function(settings) {
+  settings.test_workers = false;
+  return settings;
+})(require('./nightwatch.json'));
+
+
+%Task 1
+var webdriver = required ('selenium-webdriver'),
+By = webdriver.By
+until = webdriver.until;
+
+var driver = new webdriver.Builder()
+.ForBrowse('Chrome')
+.build();
+
+driver.get('http://google.com');
+driver.findElement(By.name('q')).sendKeys('phptravels.com/demo/');
+driver.findElement(By.name('btnG')).click();
+driver.wait(check_title,1000);
+
+function check_title(){
+	var promise = driver.getTitle().then( function(title){
+		if (title === 'phptravels.com/demo/-Google Search')
+		{
+			console.log('success');
+			return true;
+		}
+		else
+		{
+			console.log('fail -- '+title);
+		}
+	}}
+return promise;
+}
+
+module.exports = {
+  'Login test': function (client) {
+    client
+      .url('http//:phptravels.com/demo/')
+			setValue('input[name="FirstName"]', 'Kang')
+			setValue('input[name="LastName"]', 'Fu')
+      .setValue('input[name="email"]', 'yukidesign@126.com')
+			setValue('input[name="Passwd"]', 'Ludi4980')
+			setValue('input[name="PasswdAgain"]', 'Ludi4980')
+			setValue('input[name="BirthDay"]', '01/04')
+			setValue('input[name="BirthYear"]', '2017')
+			setValue('input[name="RecovertPhoneNumber"]', '1234567890')
+      setValue('input[name="RecoverEmailAddress"]', 'yukidesign@126.com')
+			setValue('input[name="SkipCaptcha"]', )
+			.click('button[type="submit"]')
+      .assert.containsText('main', 'Flight Tour')
+      .end();
+		}
+};
+
+%Task 2: 
+%Create a tour on Admin,then use code test
+document.body.onload = addElement;
+
+function addElement () { 
+  var newDiv = document.createElement("div"); 
+  var newContent = document.createTextNode("Orlando Florida"); 
+  newDiv.appendChild(newContent); 
+
+  // add the newly created element and its content into the DOME 
+  var currentDiv = document.getElementById("div1"); 
+  document.body.insertBefore(newDiv, currentDiv); 
+}
+
+driver.get('http://phptravels.net/admin/tours/manage/orlando-florida');
+driver.findElement(By.name('Tour')).sendKeys('phptravels.com/demo/');
+driver.findElement(By.name('btnG')).click();
+driver.wait(check_title,2000);
+
+
+%Another way
+
+'Login test': function (client) {
+	client
+		.url('http//:phptravels.com/demo/')
+		setValue('input[name='status]', '')
+		setValue('input[name='TourName]', '')
+		.setValue('input[name='TourDescription']', '')
+		setValue('input[name='Quantity']', '')
+		setValue('input[name='Price']', '')
+		setValue('input[name='Enable'], '')
+		setValue('input[name='Stars'], '')
+		setValue('input[name='TotalDays'], '')
+		setValue('input[name='TotalNights']', '')
+		setValue('input[name='TourType'], '')
+		.click('button[type='submit']'')
+		.assert.containsText('main', 'Flight Tour')
+		.end();
+	}
+};
+
+%Test automated way by structure
+describe('nightwatch homepage todo list', function () {
+    it('should add a todo', function () {
+        browser.get('http://nightwatchjs.org/');
+
+        element(by.model('todoList.todoText')).sendKeys('write first protractor test');
+        element(by.css('[value="add"]')).click();
+
+        var todoList = element.all(by.repeater('todo in todoList.todos'));
+        expect(todoList.count()).toEqual(3);
+        expect(todoList.get(2).getText()).toEqual('write first protractor test');
+
+        // You wrote your first test, cross it off the list
+        todoList.get(2).element(by.css('input')).click();
+        var completedAmount = element.all(by.css('.done-true'));
+        expect(completedAmount.count()).toEqual(2);
+    });
+});
+
+%Task 3
+var webdriver = required ('selenium-webdriver'),
+By = webdriver.By
+until = webdriver.until;
+
+var driver = new webdriver.Builder()
+.ForBrowse('Chrome')
+.build();
+
+driver.get('phptravels.com/demo/');
+driver.findElement(By.name('Tour')).sendKeys('Orlando Florida');
+driver.findElement(By.name('btnG')).click();
+driver.wait(check_title,1000);
+driver.findElement(By.name('Book')).click();
+drive.wait(check_title,2000);
+drive.findElement(By.name('Conform')).clcik();
+drive.wait(check_title 2000);
+
+function check_title(){
+	var promise = driver.getTitle().then( function(title){
+		if (title === 'phptravels.com/demo/-Google Search')
+		{
+			console.log('success');
+			return true;
+		}
+		else
+		{
+			console.log('fail -- '+title);
+		}
+	}}
+return promise;
+}
+
+
